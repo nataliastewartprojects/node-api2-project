@@ -40,4 +40,24 @@ router.get("/:id", (req, res) => {
     });
 });
 
+//-->>GET POST BY ID AND COMMENTS
+router.get("/:id/comments", (req, res) => {
+  Posts.findPostComments(req.params.id)
+    .then((comment) => {
+      if (comment.length === 0) {
+        res
+          .status(404)
+          .json({ message: "The post with the specified ID does not exist." });
+      } else {
+        res.status(200).json(comment);
+      }
+    })
+    .catch((error) => {
+      console.log(error, "status 500");
+      res
+        .status(500)
+        .json({ error: "The comment information could not be retrieved." });
+    });
+});
+
 module.exports = router;
